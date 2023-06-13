@@ -5,7 +5,9 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -32,4 +34,13 @@ public class OrderEntity {
 
     @Column(name="card_used")
     String cardUsed;
+
+    /*Established child-parent relationship between Customer and Order */
+    @OneToMany
+    @JoinColumn
+    Customer customer;
+
+    /*Established parent-child relationship between Customer and Order */
+    @OneToMany(mappedBy = "orderEntity",cascade = CascadeType.ALL)
+    List<Item> items = new ArrayList<>();
 }

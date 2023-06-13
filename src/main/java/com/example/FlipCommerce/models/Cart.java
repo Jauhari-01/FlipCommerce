@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -19,4 +22,13 @@ public class Cart {
 
     @Column(name="cart_total")
     int cartTotal;
+
+    /*Established child-parent relationship */
+    @OneToOne
+    @JoinColumn
+    Customer customer;
+
+    /*Established parent-child relationship */
+    @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL)
+    List<Item> items = new ArrayList<>();
 }

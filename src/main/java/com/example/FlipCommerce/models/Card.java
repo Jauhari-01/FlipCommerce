@@ -33,4 +33,10 @@ public class Card {
     @Column(name="valid_till")
     Date validTill;
 
+    /*Established child-parent relationship */
+
+    @ManyToOne
+    @JoinColumn
+    Customer customer;
+
 }

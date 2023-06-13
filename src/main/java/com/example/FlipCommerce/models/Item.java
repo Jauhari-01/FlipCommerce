@@ -19,4 +19,19 @@ public class Item {
 
     @Column(name="required_quantity")
     int requiredQuantity;
+
+    /*Established child-parent relationship between item and product */
+    @ManyToOne
+    @JoinColumn
+    Product product;
+
+    /*Established child-parent relationship between item and Order */
+    @ManyToOne
+    @JoinColumn
+    OrderEntity orderEntity;
+
+    /*Established child-parent relationship between item and cart */
+    @ManyToOne
+    @JoinColumn
+    Cart cart;
 }
