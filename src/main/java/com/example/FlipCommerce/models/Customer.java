@@ -5,8 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Data
@@ -44,6 +43,6 @@ public class Customer {
     Cart cart;
 
     /*Established parent-child relationship between Customer and Order */
-    @OneToOne(mappedBy = "customer",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
     List<OrderEntity> orders = new ArrayList<>();
 }

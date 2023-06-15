@@ -36,7 +36,7 @@ public class OrderEntity {
     String cardUsed;
 
     /*Established child-parent relationship between Customer and Order */
-    @OneToMany
+    @ManyToOne
     @JoinColumn
     Customer customer;
 
