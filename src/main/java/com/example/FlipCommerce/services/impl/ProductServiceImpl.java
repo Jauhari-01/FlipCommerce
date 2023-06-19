@@ -1,6 +1,7 @@
 package com.example.FlipCommerce.services.impl;
 
 import com.example.FlipCommerce.Enum.Category;
+import com.example.FlipCommerce.Enum.ProductStatus;
 import com.example.FlipCommerce.dto.requestDto.ProductRequestDto;
 import com.example.FlipCommerce.dto.responseDto.ProductResponseDto;
 import com.example.FlipCommerce.exceptions.SellerNotFoundException;
@@ -11,6 +12,8 @@ import com.example.FlipCommerce.repository.SellerRepository;
 import com.example.FlipCommerce.services.ProductService;
 import com.example.FlipCommerce.transformers.ProductTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,6 +29,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    private JavaMailSender emailSender;
 
     @Override
     public ProductResponseDto addProduct(ProductRequestDto productRequestDto) throws SellerNotFoundException {
@@ -81,31 +87,74 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<String> top5CostliestProduct() {
-        return null;
+        return productRepository.top5CostliestProduct();
     }
 
     @Override
     public List<String> top5CheapestProduct() {
-        return null;
+        return productRepository.top5CheapestProduct();
     }
 
     @Override
     public Set<String> productBasedOnSellerEmailId(String emailId) {
-        return null;
+        Iterable<Product> productIterable = productRepository.findAll();
+        Set<String> productSet = new HashSet<>();
+
+        /*Iterate whole product table*/
+        for (Product product: productIterable) {
+            if (product.getSeller().getEmailId().equals(emailId)){
+                productSet.add(product.getName());
+            }
+        }
+        return productSet;
     }
 
     @Override
     public Set<String> outOfStockProductForAParticularCategory(Category category) {
-        return null;
+        Iterable<Product> productIterable = productRepository.findAll();
+        Set<String> productSet = new HashSet<>();
+
+        /*Iterate whole product table*/
+        for (Product product: productIterable) {
+            if (product.getCategory().equals(category)
+                    && product.getProductStatus().equals(ProductStatus.OUT_OF_STOCK)){
+                productSet.add(product.getName());
+            }
+        }
+        return productSet;
     }
 
     @Override
     public void sendEmailToSellerProductOutOfStock() {
+        Iterable<Product> productIterable = productRepository.findAll();
+        Set<String> productSet = new HashSet<>();
 
+        /*Iterate whole product table*/
+        for (Product product: productIterable) {
+            Seller seller = product.getSeller();
+            if (product.getProductStatus().equals(ProductStatus.OUT_OF_STOCK)){
+                /*Call to the sendMailToSeller method*/
+                sendMailToSeller(seller.getName(), seller.getEmailId(), product.getName());
+            }
+        }
     }
 
     @Override
     public void deleteProduct(int id) {
+        productRepository.deleteById(id);
+    }
 
+    //UTILITY METHODS
+    private void sendMailToSeller(String sellerName, String emailId, String productName) {
+        String text = sellerName + " your product " + productName +
+                " is out of stock from E-Store e-commerce website. \n" +
+                "Thank you!!!" + "\n" + "no-reply this is automated generated mail.";
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("ecommerce7232@gmail.com");
+        message.setTo(emailId);
+        message.setSubject("Product Out Of Stock!!!");
+        message.setText(text);
+        emailSender.send(message);
     }
 }
