@@ -10,9 +10,11 @@ import com.example.FlipCommerce.repository.CustomerRepository;
 import com.example.FlipCommerce.services.CardService;
 import com.example.FlipCommerce.transformers.CardTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 
+@Service
 public class CardServiceImpl implements CardService {
 
     @Autowired
