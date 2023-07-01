@@ -56,3 +56,45 @@ These APIs provide essential functionalities for managing seller information and
 9. `/delete-product`: This API deletes a product based on its ID. It takes the product ID as a request parameter and calls the `deleteProduct` method in the `productService` to delete the product from the system.
 
 These APIs provide essential functionalities for managing products, retrieving products based on various criteria, and performing actions such as sending emails and deleting products in the FlipCommerce e-commerce application.
+
+
+### The Order Controller in the FlipCommerce project handles operations related to orders. It provides the following APIs:
+---------------
+1. `/place-order`: This API allows the placement of a new order. It accepts an `OrderRequestDto` containing order details and returns a response with the newly created order information. If an error occurs, it returns a bad request status along with the error message.
+
+2. `/top-5-orders-with-highest-order-value`: This API retrieves the top 5 orders with the highest order value. It calls the `top5OrdersWithHighestOrderValue` method in the `orderService` to fetch the list of order IDs.
+
+3. `/all-order-of-particular-customer/{emailId}`: This API retrieves all the orders of a particular customer based on their email ID. It takes the email ID as a path variable and calls the `allOrderOfParticularCustomer` method in the `orderService` to fetch the list of order IDs.
+4. `/top-5-recently-orders`: This API retrieves the top 5 recently ordered orders of a customer. It calls the `top5RecentlyOrders` method in the `orderService` to fetch the list of order IDs. The list is then reversed using `Collections.reverse` to get the most recent orders at the beginning of the list.
+
+These APIs provide essential functionalities for placing orders, retrieving top orders based on order value, and fetching orders for a specific customer in the FlipCommerce e-commerce application.
+
+### The Card Controller contains the following APIs:
+-------------------------
+1. `/add-card`: This API is used to add a new card to the system. It takes a `CardRequestDto` object as a request body and calls the `addCard` method in the `cardService` to add the card. If the associated customer is not found, it returns a `CustomerNotFoundException` with a `NOT_FOUND` status.
+
+2. `/card-type-max-number-of-times`: This API retrieves the card type that exists the maximum number of times in the system. It calls the `cardTypeMaxNumberOfTimes` method in the `cardService` to determine the card type and returns it as a response with a `FOUND` status.
+
+3. `/card-type-min-number-of-times`: This API retrieves the card type that exists the minimum number of times in the system. It calls the `cardTypeMinNumberOfTimes` method in the `cardService` to determine the card type and returns it as a response with a `FOUND` status.
+
+These APIs provide functionality related to managing and analyzing card information in the FlipCommerce e-commerce application.
+
+### The Cart Controller includes the following APIs:
+---------------------------------------
+1. `/add-cart`: This API is used to add an item to the cart. It takes an `ItemRequestDto` object as a request body and calls the `createItem` method in the `itemService` to create the item. Then, it adds the created item to the cart using the `addToCart` method in the `cartService`. If successful, it returns a `CartResponseDto` with a `ACCEPTED` status. If an error occurs, it returns an error message with a `BAD_REQUEST` status.
+
+2. `/checkout-cart`: This API is used to check out the items from the cart and create an order. It takes a `CheckOutCartRequestDto` object as a request body and calls the `checkOutCart` method in the `cartService` to process the cart and create an order. If successful, it returns an `OrderResponseDto` with a `CREATED` status. If an error occurs, it returns an error message with a `BAD_REQUEST` status.
+
+These APIs provide functionality for adding items to the cart and checking out the cart to create orders in the e-commerce application.
+
+### In my project, I had utilized Swagger, DTOs, Transformers, and Exception Handling for efficient development, documentation, and error management.
+-----------------
+1. Swagger: Swagger is an open-source tool used for designing, building, documenting, and consuming RESTful APIs. By integrating Swagger into your project, you have enhanced the API development process. Swagger provides a user-friendly interface to view and test your APIs, generates API documentation, and simplifies API integration.
+
+2. DTOs (Data Transfer Objects): DTOs are objects used to transfer data between different layers of an application. In your project, you have implemented DTOs to encapsulate the data exchanged between the client and server. DTOs help in decoupling the internal domain model from the external API representation, ensuring clean data transfer and improved maintainability.
+
+3. Transformers: Transformers are components used to convert data between different formats or structures. In your project, you have likely implemented transformers to convert data between DTOs and internal domain objects. Transformers facilitate data mapping and transformation, allowing seamless communication between different layers of the application.
+
+4. Exception Handling: Exception handling is an important aspect of any robust application. In your project, you have implemented exception handling mechanisms to gracefully handle and manage errors. This includes catching and handling exceptions thrown during API execution, providing appropriate error messages and HTTP status codes to the client, and ensuring a smooth user experience even in case of errors.
+
+## By incorporating these features into your project, I have demonstrated strong skills in API development, documentation, data management, and error handling. These practices contribute to the overall quality, usability, and reliability of your application.
